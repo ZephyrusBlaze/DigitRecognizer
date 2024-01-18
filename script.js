@@ -5,59 +5,54 @@ let x = 0;
 let y = 0;
 var offsetX;
 var offsetY;
+
 // get the canvas element and the save button element
 const saveBtn = document.getElementById("saveBtn");
 const predictBtn = document.getElementById("predictBtn");
 
 function argmax(array) {
     if (array.length === 0) {
-      return -1; // Return -1 for an empty array
+        return -1; // Return -1 for an empty array
     }
-  
     let maxIndex = 0;
     let maxValue = array[0];
-  
+
     for (let i = 1; i < array.length; i++) {
-      if (array[i] > maxValue) {
-        maxIndex = i;
-        maxValue = array[i];
-      }
-    }
-  
-    return maxIndex;
-}  
-
-// add click event listener to the save button
-predictBtn.addEventListener("click", () => {
-    // create a new image element
-    const img = new Image();
-    // set the image source to the canvas data URL
-    img.src = canvas.toDataURL("image/png");
-    // send the image data to the Flask server using AJAX
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", "/predict_image", true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-
-            console.log(xhr.responseText);
-
-            let proba = JSON.parse(xhr.responseText); // Parsing to array
-
-            var bars = document.querySelectorAll('.bars li .bar');
-            for (let i=0; i<proba.length; i++)
-            {
-                var percentage = proba[i];
-                bars[i].style.height = percentage + '%';
-                bars[i].setAttribute('data-percentage', percentage);
-                bars[i].style.transition = 'height 1s';
-            }
-            document.getElementById("prediction").innerHTML= `PREDICTED: ${argmax(proba)}`;
+        if (array[i] > maxValue) {
+            maxIndex = i;
+            maxValue = array[i];
         }
-    };
-    xhr.send(JSON.stringify({
-        "image": img.src
-    }));
+    }
+    return maxIndex;
+}
+
+predictBtn.addEventListener("click", async () => {
+    // Create a new image element
+    const img = new Image();
+    img.src = canvas.toDataURL("image/png");
+
+    // Send the image data to the TensorFlow.js model using tf.js
+    const model = await tf.loadLayersModel("assets/models/model.json");
+
+    // Resize the image to match the model's input shape (28x28)
+    const tensorImg = tf.browser.fromPixels(img).resizeBilinear([28, 28]).mean(2).toFloat().div(tf.scalar(255.0)).reshape([1, 28, 28, 1]);
+
+    const prediction = model.predict(tensorImg).dataSync();
+
+    // Round off probabilities to the nearest integer
+    const roundedPrediction = prediction.map(prob => Math.round(prob * 100));
+
+    // Update the UI with the rounded prediction results
+    const bars = document.querySelectorAll('.bars li .bar');
+    for (let i = 0; i < roundedPrediction.length; i++) {
+        const percentage = roundedPrediction[i];
+        bars[i].style.height = percentage + '%';
+        bars[i].setAttribute('data-percentage', percentage);
+        bars[i].style.transition = 'height 1s';
+    }
+
+    const maxIndex = argmax(roundedPrediction);
+    document.getElementById("prediction").innerHTML = `PREDICTED: ${maxIndex}`;
 });
 
 // add click event listener to the save button
