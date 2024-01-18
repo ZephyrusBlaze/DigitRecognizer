@@ -8,43 +8,43 @@ This repository houses an exciting deep learning project employing Convolutional
 
 Ensure you have the following packages installed with the specified versions:
 
-- numpy
-- matplotlib
-- tensorflow
-- keras
-- pillow or opencv-python
+- `numpy`
+- `matplotlib`
+- `tensorflow`
+- `keras`
+- `pillow` or `opencv-python`
 
 ## Usage 🚀
 
 1. **Clone the repository** to your local machine:
 
-```bash
-git clone https://github.com/TheStrange-007/DigitRecognizer.git
-```
+   ```bash
+   git clone https://github.com/TheStrange-007/DigitRecognizer.git
+   ```
 
 2. **Install required packages**:
 
-```bash
-pip install -r requirements.txt
-```
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 3. **Run the Flask server**:
 
-```bash
-python server.py
-```
+   ```bash
+   python server.py
+   ```
 
 4. **Access the web interface**:
 
-Visit `http://localhost:5000` in your web browser.
+   Visit `http://localhost:5000` in your web browser.
 
 5. **Draw a digit**:
 
-In the provided interface, draw a digit, and the trained model will predict the corresponding digit.
+   In the provided interface, draw a digit, and the trained model will predict the corresponding digit.
 
 🌐 **Alternatively, use the pre-trained model**:
 
-Access the model at [https://thestrange-007.github.io/DigitRecognizer/](https://thestrange-007.github.io/DigitRecognizer/).
+   Access the model at [https://thestrange-007.github.io/DigitRecognizer/](https://thestrange-007.github.io/DigitRecognizer/).
 
 ## Model Training 🧠
 
