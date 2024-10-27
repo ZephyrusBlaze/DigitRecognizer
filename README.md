@@ -19,7 +19,7 @@ Ensure you have the following packages installed with the specified versions:
 1. **Clone the repository** to your local machine:
 
    ```bash
-   git clone https://github.com/TheStrange-007/DigitRecognizer.git
+   git clone https://github.com/ZephyrusBlaze/DigitRecognizer.git
    ```
 
 2. **Install required packages**:
