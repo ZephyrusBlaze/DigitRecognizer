@@ -44,7 +44,7 @@ Ensure you have the following packages installed with the specified versions:
 
 🌐 **Alternatively, use the pre-trained model**:
 
-   Access the model at [https://thestrange-007.github.io/DigitRecognizer/](https://thestrange-007.github.io/DigitRecognizer/).
+   Access the model at [https://ZephyrusBlaze.github.io/DigitRecognizer/](https://ZephyrusBlaze.github.io/DigitRecognizer/).
 
 ## Model Training 🧠
 
